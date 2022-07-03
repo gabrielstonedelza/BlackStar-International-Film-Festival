@@ -6,4 +6,5 @@ from django.conf import settings
 urlpatterns = [
                   path('admin/', admin.site.urls),
                   path('', include("mfestival_users.urls")),
+                  path('', include("mfestival_api.urls")),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404
-from .models import SubmitFilm
-from .serializers import SubmitFilmSerializer
+from .models import SubmitFilm, Gallery
+from .serializers import SubmitFilmSerializer, GallerySerializer
 
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework import viewsets, permissions, generics, status
@@ -12,7 +12,7 @@ from rest_framework.response import Response
 def submit_film(request):
     serializer = SubmitFilmSerializer(data=request.data)
     if serializer.is_valid():
-        serializer.save(user=request.user)
+        serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

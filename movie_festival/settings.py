@@ -89,7 +89,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'bsiff',
         'USER': 'bsiffuser',
-        'PASSWORD': 'Royalsjas',
+        'PASSWORD': 'Royalsjas5',
         'HOST': 'localhost',
         'PORT': '5432',
     }
@@ -161,7 +161,7 @@ CORS_ALLOW_HEADERS = [
 AUTH_USER_MODEL = 'mfestival_users.User'
 DJOSER = {
     'LOGIN_FIELD': 'email',
-    'USER_CREATE_PASSWORD_RETYPE': True,
+    # 'USER_CREATE_PASSWORD_RETYPE': True,
     'SERIALIZERS': {
         'user_create': 'mfestival_users.serializers.UserCreateSerializer',
         'user': 'mfestival_users.serializers.UserCreateSerializer'

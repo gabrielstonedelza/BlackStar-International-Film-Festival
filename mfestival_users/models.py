@@ -8,7 +8,7 @@ DeUser = settings.AUTH_USER_MODEL
 
 class User(AbstractUser):
     email = models.EmailField(unique=True, max_length=255)
-    full_name = models.CharField(max_length=150, default="Fnet User", unique=True)
+    full_name = models.CharField(max_length=150, unique=True)
 
     REQUIRED_FIELDS = ['username', 'full_name']
     USERNAME_FIELD = 'email'
