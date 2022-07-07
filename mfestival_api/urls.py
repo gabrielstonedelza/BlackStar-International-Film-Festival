@@ -8,4 +8,6 @@ urlpatterns = [
     path('get_all_selected/', views.get_all_selected),
     path('film_detail/<str:slug>/', views.film_detail),
     path('add_to_selected/<str:slug>/update/', views.add_to_selected),
+    path('get_gallery/', views.get_all_gallery),
+    path('search_film/', views.GetFilm.as_view())
 ]

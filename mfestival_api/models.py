@@ -1,7 +1,9 @@
 from django.db import models
 from .validators import validate_trailer_size
+from django.core.validators import FileExtensionValidator
 from PIL import Image
 from django.utils.text import slugify
+from django_countries.fields import CountryField
 
 # Create your models here.
 
@@ -38,31 +40,39 @@ GENRES = (
     ("Other", "Other"),
 )
 
+supported_files = ["png", "jpg", "jpeg"]
+supported_video_files = ["mpeg", "mp4", "mov", ]
+
 
 class Genres(models.Model):
     genre = models.CharField(choices=GENRES, max_length=255)
+
+    def __str__(self):
+        return self.genre
 
 
 class SubmitFilm(models.Model):
     title = models.CharField(max_length=200, unique=True)
     category = models.CharField(max_length=70, choices=MOVIE_CATEGORIES)
-    poster = models.ImageField(upload_to="official_posters")
+    poster = models.ImageField(upload_to='event_pics', blank=True)
     views = models.IntegerField(default=0)
     duration = models.CharField(max_length=100, blank=True)
     description = models.TextField(blank=True)
     language = models.CharField(max_length=100, blank=True)
-    genres = models.ManyToManyField(Genres, blank=True,)
+    genre = models.CharField(max_length=100, blank=True)
     country = models.CharField(max_length=100, blank=True)
-    directors = models.CharField(max_length=100, blank=True)
-    writers = models.CharField(max_length=100, blank=True)
-    producers = models.CharField(max_length=100, blank=True)
+    directors = models.TextField(blank=True)
+    writers = models.TextField(blank=True)
+    producers = models.TextField(blank=True)
     key_casts = models.TextField(blank=True)
     about_submitter = models.TextField(blank=True)
+    movie_link = models.URLField(blank=True)
     user_score = models.IntegerField(default=0)
-    release_date = models.CharField(max_length=100, blank=True)
-    trailer = models.CharField(max_length=100, blank=True, validators=[validate_trailer_size])
-    slug = models.SlugField(max_length=100, default='')
+    trailer = models.FileField(blank=True, validators=[validate_trailer_size, FileExtensionValidator(
+        allowed_extensions=supported_video_files)])
+    slug = models.SlugField(max_length=100, default='', blank=True)
     selected = models.BooleanField(default=False)
+    full_movie = models.FileField(upload_to="movies", blank=True, null=True)
     festival_date = models.DateField(auto_now_add=True)
     date_posted = models.DateTimeField(auto_now_add=True)
 
@@ -74,6 +84,16 @@ class SubmitFilm(models.Model):
         self.slug = slugify(value, allow_unicode=True)
         super().save(*args, **kwargs)
 
+    def get_movie_poster(self):
+        if self.poster:
+            return "http://127.0.0.1:8000" + self.poster.url
+        ""
+
+    def get_movie_trailer(self):
+        if self.trailer:
+            return "http://127.0.0.1:8000" + self.trailer.url
+        ""
+
 
 class Gallery(models.Model):
     title = models.CharField(max_length=100, blank=True)
@@ -82,3 +102,8 @@ class Gallery(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_image(self):
+        if self.image:
+            return "http://127.0.0.1:8000" + self.image.url
+        ""

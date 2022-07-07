@@ -1,7 +1,8 @@
 from django.shortcuts import get_object_or_404
 from .models import SubmitFilm, Gallery
 from .serializers import SubmitFilmSerializer, GallerySerializer
-
+from rest_framework import filters
+from django.db.models import Q
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework import viewsets, permissions, generics, status
 from rest_framework.response import Response
@@ -36,8 +37,11 @@ def get_all_selected(request):
 @api_view(['GET'])
 @permission_classes([permissions.AllowAny])
 def film_detail(request, slug):
-    film = SubmitFilm.objects.filter(slug=slug).order_by('-date_posted')
-    serializer = SubmitFilmSerializer(film, many=True)
+    film = get_object_or_404(SubmitFilm, slug=slug)
+    if film:
+        film.views += 1
+        film.save()
+    serializer = SubmitFilmSerializer(film, many=False)
     return Response(serializer.data)
 
 
@@ -50,3 +54,19 @@ def add_to_selected(request, slug):
         serializer.save()
         return Response(serializer.data)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+@permission_classes([permissions.AllowAny])
+def get_all_gallery(request):
+    gallery = Gallery.objects.all().order_by('-date_posted')
+    serializer = GallerySerializer(gallery, many=True)
+    return Response(serializer.data)
+
+
+class GetFilm(generics.ListAPIView):
+    permission_classes = [permissions.AllowAny]
+    queryset = SubmitFilm.objects.all().order_by('-date_posted')
+    serializer_class = SubmitFilmSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['title']
