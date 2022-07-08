@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     'djoser',
     'corsheaders',
     'crispy_forms',
-    'django_countries',
     'rest_framework',
     'rest_framework.authtoken',
     'django_cleanup.apps.CleanupConfig',

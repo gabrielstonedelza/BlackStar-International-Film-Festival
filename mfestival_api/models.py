@@ -6,7 +6,6 @@ from django.core.validators import FileExtensionValidator
 from PIL import Image
 from django.utils import timezone
 from django.utils.text import slugify
-from django_countries.fields import CountryField
 
 # Create your models here.
 
