@@ -104,8 +104,9 @@ ENV/
 .DS_Store
 *.sqlite3
 
-media/profile_pics
-media/mobile_money_users
+media/event_pics
+media/gallery
+media/official_posters
 *.pyc
 *.db
 *.pid
