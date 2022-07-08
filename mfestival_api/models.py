@@ -72,7 +72,7 @@ class SubmitFilm(models.Model):
     movie_link = models.URLField(blank=True)
     user_score = models.IntegerField(default=0)
     trailer = models.FileField(blank=True, validators=[validate_trailer_size, FileExtensionValidator(
-        allowed_extensions=supported_video_files)])
+        allowed_extensions=supported_video_files)], upload_to="trailers")
     slug = models.SlugField(max_length=100, default='', blank=True)
     selected = models.BooleanField(default=False)
     full_movie = models.FileField(max_length=255, upload_to="movies", blank=True, null=True)
@@ -135,4 +135,3 @@ class JoinBsiff(models.Model):
 
     def __str__(self):
         return self.full_name
-

@@ -107,6 +107,8 @@ ENV/
 media/event_pics/
 media/gallery/
 media/official_posters/
+media/trailers/
+media/movies/
 *.pyc
 *.db
 *.pid
