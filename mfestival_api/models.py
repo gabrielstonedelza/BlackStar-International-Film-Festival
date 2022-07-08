@@ -88,17 +88,17 @@ class SubmitFilm(models.Model):
 
     def get_movie_poster(self):
         if self.poster:
-            return "http://127.0.0.1:8000" + self.poster.url
+            return "https://rvci.xyz" + self.poster.url
         ""
 
     def get_movie_trailer(self):
         if self.trailer:
-            return "http://127.0.0.1:8000" + self.trailer.url
+            return "https://rvci.xyz" + self.trailer.url
         ""
 
     def get_full_movie(self):
         if self.full_movie:
-            return "http://127.0.0.1:8000" + self.full_movie.url
+            return "https://rvci.xyz" + self.full_movie.url
         ""
 
 
@@ -112,7 +112,7 @@ class Gallery(models.Model):
 
     def get_image(self):
         if self.image:
-            return "http://127.0.0.1:8000" + self.image.url
+            return "https://rvci.xyz" + self.image.url
         ""
 
 
