@@ -1,7 +1,10 @@
+from email.policy import default
+
 from django.db import models
 from .validators import validate_trailer_size
 from django.core.validators import FileExtensionValidator
 from PIL import Image
+from django.utils import timezone
 from django.utils.text import slugify
 from django_countries.fields import CountryField
 
@@ -72,7 +75,7 @@ class SubmitFilm(models.Model):
         allowed_extensions=supported_video_files)])
     slug = models.SlugField(max_length=100, default='', blank=True)
     selected = models.BooleanField(default=False)
-    full_movie = models.FileField(upload_to="movies", blank=True, null=True)
+    full_movie = models.FileField(max_length=255, upload_to="movies", blank=True, null=True)
     festival_date = models.DateField(auto_now_add=True)
     date_posted = models.DateTimeField(auto_now_add=True)
 
@@ -94,6 +97,11 @@ class SubmitFilm(models.Model):
             return "http://127.0.0.1:8000" + self.trailer.url
         ""
 
+    def get_full_movie(self):
+        if self.full_movie:
+            return "http://127.0.0.1:8000" + self.full_movie.url
+        ""
+
 
 class Gallery(models.Model):
     title = models.CharField(max_length=100, blank=True)
@@ -107,3 +115,24 @@ class Gallery(models.Model):
         if self.image:
             return "http://127.0.0.1:8000" + self.image.url
         ""
+
+
+class ContactUs(models.Model):
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    email = models.EmailField(max_length=255)
+    message = models.TextField(default="")
+    date_contacted = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return self.first_name
+
+
+class JoinBsiff(models.Model):
+    full_name = models.CharField(max_length=100, unique=True)
+    email = models.EmailField(unique=True, max_length=255)
+    date_joined = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.full_name
+
