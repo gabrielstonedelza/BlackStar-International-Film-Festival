@@ -56,7 +56,7 @@ class Genres(models.Model):
 class SubmitFilm(models.Model):
     title = models.CharField(max_length=200, unique=True)
     category = models.CharField(max_length=70, choices=MOVIE_CATEGORIES, default="Short Film")
-    poster = models.ImageField(upload_to='event_pics', blank=True)
+    poster = models.ImageField(upload_to='event_pics', blank=True, default="video-player.png")
     views = models.IntegerField(default=0)
     duration = models.CharField(max_length=100, blank=True)
     description = models.TextField(blank=True)
