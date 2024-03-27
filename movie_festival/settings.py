@@ -170,3 +170,4 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     ),
 }
+SESSION_COOKIE_SECURE = True
